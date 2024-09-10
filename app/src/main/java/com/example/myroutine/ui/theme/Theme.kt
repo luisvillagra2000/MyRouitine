@@ -29,14 +29,16 @@ private val LightColorScheme = lightColorScheme(
 @Composable
 fun MyRoutineTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
+    applyWindowInsets: Boolean = true,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
         darkTheme -> DarkColorScheme
         else -> LightColorScheme
     }
+
     val view = LocalView.current
-    if (!view.isInEditMode) {
+    if (applyWindowInsets && !view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
             window.statusBarColor = colorScheme.primary.toArgb()

@@ -3,22 +3,41 @@ package com.example.myroutine
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.ui.Modifier
+import com.example.myroutine.ui.screens.ErrorScreen
+import com.example.myroutine.ui.screens.LoadingScreen
+import com.example.myroutine.ui.screens.MyRoutineScreen
+import com.example.myroutine.ui.screens.UserInfoScreen
 import com.example.myroutine.ui.theme.MyRoutineTheme
+import com.example.myroutine.ui.viewmodels.MyRoutineUiState
+import com.example.myroutine.ui.viewmodels.MyRoutineViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : ComponentActivity() {
+    private val viewModel: MyRoutineViewModel by viewModel()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             MyRoutineTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
+                when (viewModel.myRoutineUiState) {
+                    is MyRoutineUiState.Init ->
+                        UserInfoScreen((viewModel.myRoutineUiState as MyRoutineUiState.Init).values) {
+                            viewModel.uploadUserInfo(it)
+                            viewModel.getRoutine()
+                        }
 
+                    MyRoutineUiState.Error ->
+                        ErrorScreen(
+                            onRetry = { viewModel.getRoutine() },
+                            onBack = { viewModel.createNewRoutine() }
+                        )
+
+                    MyRoutineUiState.Loading ->
+                        LoadingScreen()
+
+                    is MyRoutineUiState.Success ->
+                        MyRoutineScreen(workoutPlan = (viewModel.myRoutineUiState as MyRoutineUiState.Success).workoutPlan) {
+                            viewModel.createNewRoutine()
+                        }
                 }
             }
         }

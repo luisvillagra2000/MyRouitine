@@ -1,3 +1,39 @@
 <resources>
     <string name="app_name">MyRoutine</string>
+
+    <!-- UserInfoScreen -->
+    <string name="user_info_title">Complete Your Information</string>
+    <string name="user_info_age">Age</string>
+    <string name="user_info_weight">Weight (kg)</string>
+    <string name="user_info_height">Height (cm)</string>
+    <string name="user_info_goal">Goal</string>
+    <string name="user_info_hours_por_week">Hours of Exercise per Week</string>
+    <string name="user_info_available_days">Available Days for Exercise</string>
+    <string name="user_info_submit_button">GENERATE ROUTINE</string>
+
+    <!-- Goals -->
+    <string name="goal_lose_weight">Lose weight</string>
+    <string name="goal_gain_muscle">Gain muscle</string>
+    <string name="goal_maintain_fitness">Maintain fitness</string>
+    <string name="goal_improve_stamina">Improve stamina</string>
+
+    <!-- Days of the week -->
+    <string name="day_monday">Monday</string>
+    <string name="day_tuesday">Tuesday</string>
+    <string name="day_wednesday">Wednesday</string>
+    <string name="day_thursday">Thursday</string>
+    <string name="day_friday">Friday</string>
+    <string name="day_saturday">Saturday</string>
+    <string name="day_sunday">Sunday</string>
+
+    <!-- MyRoutineScreen -->
+    <string name="my_routine_title">My Routine</string>
+    <string name="my_routine_new_button">NEW ROUTINE</string>
+    <string name="my_routine_exercise">Exercise</string>
+    <string name="my_routine_reps">Reps</string>
+
+    <!-- ErrorScreen -->
+    <string name="error_message">Oops! Something went wrong.</string>
+    <string name="error_retry_button">RETRY</string>
+    <string name="error_back_button">BACK</string>
 </resources>
