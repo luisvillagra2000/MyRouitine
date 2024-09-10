@@ -28,12 +28,12 @@ val appModule = module {
             .build()
             .create(ApiService::class.java)
     }
-    single<RoutineRepository> { RoutineRepositoryImpl(get(),get(),get()) }
+    single<RoutineRepository> { RoutineRepositoryImpl(get(), get(), get()) }
     single {
         Room.databaseBuilder(get(), AppDatabase::class.java, "app_database")
             .build()
     }
     single { get<AppDatabase>().userInfoDao() }
     single { get<AppDatabase>().workoutPlanDao() }
-    viewModel { MyRoutineViewModel(get()) }
+    viewModel { MyRoutineViewModel(get(), get()) }
 }

@@ -38,7 +38,7 @@ class RoutineRepositoryImplTest {
 
         val result = repository.getRoutine(mockUserInfo)
 
-        assertEquals(mockWorkoutPlan,result)
+        assertEquals(mockWorkoutPlan, result)
     }
 
     @Test
@@ -47,7 +47,7 @@ class RoutineRepositoryImplTest {
 
         val result = repository.getUserInfo()
 
-        assertEquals(mockUserInfo,result)
+        assertEquals(mockUserInfo, result)
     }
 
     @Test

@@ -3,13 +3,12 @@ package com.example.myroutine.data.db
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-
 import kotlinx.coroutines.runBlocking
 import org.junit.After
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.junit.Assert.*
 
 @RunWith(AndroidJUnit4::class)
 class WorkoutPlanDaoTest {
@@ -40,7 +39,9 @@ class WorkoutPlanDaoTest {
 
         val retrievedWorkoutPlans = workoutPlanDao.getWorkoutPlan()
 
-        assertEquals(retrievedWorkoutPlans.map { it.copy(id = 0) }, mockWorkoutPlanEntities.map { it.copy(id = 0) })
+        assertEquals(
+            retrievedWorkoutPlans.map { it.copy(id = 0) },
+            mockWorkoutPlanEntities.map { it.copy(id = 0) })
     }
 
     @Test
@@ -53,7 +54,7 @@ class WorkoutPlanDaoTest {
 
         val retrievedWorkoutPlans = workoutPlanDao.getWorkoutPlan()
 
-        assertEquals(retrievedWorkoutPlans, emptyList<WorkoutPlanEntity>() )
+        assertEquals(retrievedWorkoutPlans, emptyList<WorkoutPlanEntity>())
     }
 
     private val mockWorkoutPlanEntities = listOf(

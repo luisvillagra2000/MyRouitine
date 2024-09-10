@@ -20,6 +20,7 @@ import org.junit.Test
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnit
 import org.mockito.kotlin.whenever
+
 @ExperimentalCoroutinesApi
 class RoutineRepositoryImplTest {
 
@@ -107,7 +108,10 @@ class RoutineRepositoryImplTest {
 
         Assert.assertEquals(mockUserInfo, viewModel.userInfo)
         Assert.assertTrue(viewModel.myRoutineUiState is MyRoutineUiState.Success)
-        Assert.assertEquals(mockWorkoutPlan, (viewModel.myRoutineUiState as MyRoutineUiState.Success).workoutPlan)
+        Assert.assertEquals(
+            mockWorkoutPlan,
+            (viewModel.myRoutineUiState as MyRoutineUiState.Success).workoutPlan
+        )
     }
 
     @Test
@@ -121,7 +125,10 @@ class RoutineRepositoryImplTest {
 
         Assert.assertEquals(mockUserInfo, viewModel.userInfo)
         Assert.assertTrue(viewModel.myRoutineUiState is MyRoutineUiState.Init)
-        Assert.assertEquals(mockUserInfo, (viewModel.myRoutineUiState as MyRoutineUiState.Init).values)
+        Assert.assertEquals(
+            mockUserInfo,
+            (viewModel.myRoutineUiState as MyRoutineUiState.Init).values
+        )
     }
 
     private val mockUserInfo = UserInfo(

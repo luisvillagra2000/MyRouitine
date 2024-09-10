@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="language" translatable="false">Spanish</string>
+
+    <!-- UserInfoScreen -->
+    <string name="user_info_title">Completa tu información</string>
+    <string name="user_info_age">Edad</string>
+    <string name="user_info_weight">Peso (kg)</string>
+    <string name="user_info_height">Altura (cm)</string>
+    <string name="user_info_goal">Objetivo</string>
+    <string name="user_info_hours_por_week">Horas de ejercicio por semana</string>
+    <string name="user_info_available_days">Días disponibles para hacer ejercicio</string>
+    <string name="user_info_submit_button">GENERAR RUTINA</string>
+
+    <!-- Goals -->
+    <string name="goal_lose_weight">Perder peso</string>
+    <string name="goal_gain_muscle">Ganar músculo</string>
+    <string name="goal_maintain_fitness">Mantener la forma física</string>
+    <string name="goal_improve_stamina">Mejorar la resistencia</string>
+
+    <!-- Days of the week -->
+    <string name="day_monday">Lunes</string>
+    <string name="day_tuesday">Martes</string>
+    <string name="day_wednesday">Miércoles</string>
+    <string name="day_thursday">Jueves</string>
+    <string name="day_friday">Viernes</string>
+    <string name="day_saturday">Sábado</string>
+    <string name="day_sunday">Domingo</string>
+
+    <!-- MyRoutineScreen -->
+    <string name="my_routine_new_button">NUEVA RUTINA</string>
+    <string name="my_routine_exercise">Ejercicio</string>
+    <string name="my_routine_reps">Repeticiones</string>
+
+    <!-- ErrorScreen -->
+    <string name="error_message">¡Vaya! Algo salió mal.</string>
+    <string name="error_retry_button">REINTENTAR</string>
+    <string name="error_back_button">VOLVER</string>
+</resources>
