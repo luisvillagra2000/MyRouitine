@@ -1,12 +1,9 @@
 package com.example.myroutine.repositories
 
 import com.example.myroutine.data.db.UserInfoDao
-import com.example.myroutine.data.db.UserInfoEntity
 import com.example.myroutine.data.db.WorkoutPlanDao
-import com.example.myroutine.data.db.WorkoutPlanEntity
 import com.example.myroutine.data.db.toDomainModel
 import com.example.myroutine.data.db.toEntity
-import com.example.myroutine.data.model.DayPlan
 import com.example.myroutine.data.model.UserInfo
 import com.example.myroutine.data.model.WorkoutPlan
 import com.example.myroutine.data.network.ApiService
@@ -15,7 +12,7 @@ import com.example.myroutine.data.network.WorkoutRequest
 import com.example.myroutine.data.network.toWorkoutPlan
 
 interface RoutineRepository {
-    suspend fun getRoutine(userInfo: UserInfo): WorkoutPlan
+    suspend fun getRoutine(userInfo: UserInfo, language: String): WorkoutPlan
     suspend fun getUserInfo(): UserInfo?
     suspend fun getStoredWorkoutPlan(): WorkoutPlan?
 }
@@ -25,9 +22,7 @@ class RoutineRepositoryImpl(
     private val userInfoDao: UserInfoDao,
     private val workoutPlanDao: WorkoutPlanDao
 ) : RoutineRepository {
-
-    override suspend fun getRoutine(userInfo: UserInfo): WorkoutPlan {
-        userInfoDao.insertUserInfo(userInfo.toEntity())
+    override suspend fun getRoutine(userInfo: UserInfo, language: String): WorkoutPlan {
 
         val requestContent = """
                 Generate a personalized workout plan based on the following details: 
@@ -42,6 +37,7 @@ class RoutineRepositoryImpl(
                 Each 'exercise' has two properties: 'name' (name of the exercise) and 'repetitions' (number of set and repetitions).
                 On the workout days, include exercises that match the person's goals and physical stats, with appropriate intensity and duration.
                 For non-workout days, simply leave the 'exercises' array empty.
+                Additionally, I want the values are in $language.
                 Just respond with that JSON, do not include more dialogue in your response.
             """.trimIndent()
 
