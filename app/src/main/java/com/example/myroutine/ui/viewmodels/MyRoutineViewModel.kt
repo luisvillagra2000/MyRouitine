@@ -14,8 +14,20 @@ class MyRoutineViewModel(private val repository: RoutineRepository) : ViewModel(
 
     var userInfo: UserInfo by mutableStateOf(UserInfo())
         private set
-    var myRoutineUiState: MyRoutineUiState by mutableStateOf(MyRoutineUiState.Init(userInfo))
+
+    var myRoutineUiState: MyRoutineUiState by mutableStateOf(MyRoutineUiState.Loading)
         private set
+
+    init {
+        viewModelScope.launch {
+            userInfo = repository.getUserInfo() ?: UserInfo()
+            repository.getStoredWorkoutPlan()?.let {
+                myRoutineUiState = MyRoutineUiState.Success(it)
+            } ?: run {
+                myRoutineUiState = MyRoutineUiState.Init(userInfo)
+            }
+        }
+    }
 
     fun uploadUserInfo(newUserInfo: UserInfo) {
         userInfo = newUserInfo
@@ -25,9 +37,7 @@ class MyRoutineViewModel(private val repository: RoutineRepository) : ViewModel(
         viewModelScope.launch {
             myRoutineUiState = MyRoutineUiState.Loading
             myRoutineUiState = try {
-                MyRoutineUiState.Success(
-                    repository.getRoutine(userInfo)
-                )
+                MyRoutineUiState.Success(repository.getRoutine(userInfo))
             } catch (e: Exception) {
                 MyRoutineUiState.Error
             }

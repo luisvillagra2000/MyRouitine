@@ -20,9 +20,8 @@ import org.junit.Test
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnit
 import org.mockito.kotlin.whenever
-
 @ExperimentalCoroutinesApi
-class MyRoutineViewModelTest {
+class RoutineRepositoryImplTest {
 
     @get:Rule
     val rule = InstantTaskExecutorRule()
@@ -97,6 +96,34 @@ class MyRoutineViewModelTest {
         )
     }
 
+    @Test
+    fun `test initial state loads userInfo and workout plan correctly`() = runTest {
+        whenever(repository.getUserInfo()).thenReturn(mockUserInfo)
+        whenever(repository.getStoredWorkoutPlan()).thenReturn(mockWorkoutPlan)
+
+        viewModel = MyRoutineViewModel(repository)
+
+        testDispatcher.scheduler.advanceUntilIdle()
+
+        Assert.assertEquals(mockUserInfo, viewModel.userInfo)
+        Assert.assertTrue(viewModel.myRoutineUiState is MyRoutineUiState.Success)
+        Assert.assertEquals(mockWorkoutPlan, (viewModel.myRoutineUiState as MyRoutineUiState.Success).workoutPlan)
+    }
+
+    @Test
+    fun `test initial state loads userInfo and no workout plan correctly`() = runTest {
+        whenever(repository.getUserInfo()).thenReturn(mockUserInfo)
+        whenever(repository.getStoredWorkoutPlan()).thenReturn(null)
+
+        viewModel = MyRoutineViewModel(repository)
+
+        testDispatcher.scheduler.advanceUntilIdle()
+
+        Assert.assertEquals(mockUserInfo, viewModel.userInfo)
+        Assert.assertTrue(viewModel.myRoutineUiState is MyRoutineUiState.Init)
+        Assert.assertEquals(mockUserInfo, (viewModel.myRoutineUiState as MyRoutineUiState.Init).values)
+    }
+
     private val mockUserInfo = UserInfo(
         age = "24",
         weight = "85",
@@ -134,5 +161,4 @@ class MyRoutineViewModelTest {
             )
         )
     )
-
 }

@@ -1,5 +1,12 @@
 package com.example.myroutine.repositories
 
+import com.example.myroutine.data.db.UserInfoDao
+import com.example.myroutine.data.db.UserInfoEntity
+import com.example.myroutine.data.db.WorkoutPlanDao
+import com.example.myroutine.data.db.WorkoutPlanEntity
+import com.example.myroutine.data.db.toDomainModel
+import com.example.myroutine.data.db.toEntity
+import com.example.myroutine.data.model.DayPlan
 import com.example.myroutine.data.model.UserInfo
 import com.example.myroutine.data.model.WorkoutPlan
 import com.example.myroutine.data.network.ApiService
@@ -9,10 +16,19 @@ import com.example.myroutine.data.network.toWorkoutPlan
 
 interface RoutineRepository {
     suspend fun getRoutine(userInfo: UserInfo): WorkoutPlan
+    suspend fun getUserInfo(): UserInfo?
+    suspend fun getStoredWorkoutPlan(): WorkoutPlan?
 }
 
-class RoutineRepositoryImpl(private val apiService: ApiService) : RoutineRepository {
+class RoutineRepositoryImpl(
+    private val apiService: ApiService,
+    private val userInfoDao: UserInfoDao,
+    private val workoutPlanDao: WorkoutPlanDao
+) : RoutineRepository {
+
     override suspend fun getRoutine(userInfo: UserInfo): WorkoutPlan {
+        userInfoDao.insertUserInfo(userInfo.toEntity())
+
         val requestContent = """
                 Generate a personalized workout plan based on the following details: 
                 age is ${userInfo.age}, 
@@ -36,7 +52,27 @@ class RoutineRepositoryImpl(private val apiService: ApiService) : RoutineReposit
             )
         )
 
-        return apiService.generateWorkoutPlan(request).toWorkoutPlan()
+        val workoutPlan = apiService.generateWorkoutPlan(request).toWorkoutPlan()
 
+        workoutPlanDao.clearWorkoutPlans()
+        workoutPlan.week.forEach { dayPlan ->
+            workoutPlanDao.insertWorkoutPlan(dayPlan.toEntity())
+        }
+
+        return workoutPlan
+    }
+
+    override suspend fun getUserInfo(): UserInfo? {
+        return userInfoDao.getUserInfo()?.toDomainModel()
+    }
+
+    override suspend fun getStoredWorkoutPlan(): WorkoutPlan? {
+        val workoutPlanEntities = workoutPlanDao.getWorkoutPlan()
+        return if (workoutPlanEntities.isNotEmpty()) {
+            workoutPlanEntities.toDomainModel()
+        } else {
+            null
+        }
     }
 }
+
