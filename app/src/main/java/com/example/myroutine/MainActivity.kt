@@ -22,12 +22,12 @@ class MainActivity : ComponentActivity() {
                     is MyRoutineUiState.Init ->
                         UserInfoScreen((viewModel.myRoutineUiState as MyRoutineUiState.Init).values) {
                             viewModel.uploadUserInfo(it)
-                            viewModel.getRoutine()
+                            viewModel.getRoutine(getString(R.string.language))
                         }
 
                     MyRoutineUiState.Error ->
                         ErrorScreen(
-                            onRetry = { viewModel.getRoutine() },
+                            onRetry = { viewModel.getRoutine(getString(R.string.language)) },
                             onBack = { viewModel.createNewRoutine() }
                         )
 

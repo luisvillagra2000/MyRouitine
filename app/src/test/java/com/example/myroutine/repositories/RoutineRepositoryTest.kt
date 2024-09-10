@@ -36,7 +36,7 @@ class RoutineRepositoryImplTest {
     fun `getRoutine should insert user info and workout plan`() = runBlocking {
         whenever(apiService.generateWorkoutPlan(any())).thenReturn(mockWorkoutResponse)
 
-        val result = repository.getRoutine(mockUserInfo)
+        val result = repository.getRoutine(mockUserInfo, "")
 
         assertEquals(mockWorkoutPlan, result)
     }
@@ -63,7 +63,7 @@ class RoutineRepositoryImplTest {
     fun `getRoutine should return WorkoutPlan when API returns valid data`() = runBlocking {
         whenever(apiService.generateWorkoutPlan(any())).thenReturn(mockWorkoutResponse)
 
-        val result = repository.getRoutine(UserInfo())
+        val result = repository.getRoutine(UserInfo(), "")
 
         assertEquals(mockWorkoutPlan, result)
     }
