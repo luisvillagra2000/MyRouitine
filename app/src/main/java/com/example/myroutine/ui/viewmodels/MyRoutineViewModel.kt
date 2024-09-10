@@ -1,18 +1,16 @@
 package com.example.myroutine.ui.viewmodels
 
-import android.content.Context
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.myroutine.R
 import com.example.myroutine.data.model.UserInfo
 import com.example.myroutine.data.model.WorkoutPlan
 import com.example.myroutine.repositories.RoutineRepository
 import kotlinx.coroutines.launch
 
-class MyRoutineViewModel(private val repository: RoutineRepository, private val context: Context) :
+class MyRoutineViewModel(private val repository: RoutineRepository) :
     ViewModel() {
 
     var userInfo: UserInfo by mutableStateOf(UserInfo())
@@ -36,15 +34,12 @@ class MyRoutineViewModel(private val repository: RoutineRepository, private val 
         userInfo = newUserInfo
     }
 
-    fun getRoutine() {
+    fun getRoutine(language: String) {
         viewModelScope.launch {
             myRoutineUiState = MyRoutineUiState.Loading
             myRoutineUiState = try {
                 MyRoutineUiState.Success(
-                    repository.getRoutine(
-                        userInfo,
-                        context.getString(R.string.language)
-                    )
+                    repository.getRoutine(userInfo, language)
                 )
             } catch (e: Exception) {
                 MyRoutineUiState.Error

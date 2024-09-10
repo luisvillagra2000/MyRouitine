@@ -35,5 +35,5 @@ val appModule = module {
     }
     single { get<AppDatabase>().userInfoDao() }
     single { get<AppDatabase>().workoutPlanDao() }
-    viewModel { MyRoutineViewModel(get(), get()) }
+    viewModel { MyRoutineViewModel(get()) }
 }

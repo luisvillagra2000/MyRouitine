@@ -1,5 +1,6 @@
 package com.example.myroutine.ui.viewmodels
 
+import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.myroutine.data.model.DayPlan
 import com.example.myroutine.data.model.Exercise
@@ -35,6 +36,9 @@ class RoutineRepositoryImplTest {
     @Mock
     private lateinit var repository: RoutineRepository
 
+    @Mock
+    private lateinit var context: Context
+
     private lateinit var viewModel: MyRoutineViewModel
 
     @Before
@@ -59,10 +63,10 @@ class RoutineRepositoryImplTest {
 
     @Test
     fun `test getRoutine success updates UiState to Success`() = runTest {
-        whenever(repository.getRoutine(mockUserInfo)).thenReturn(mockWorkoutPlan)
+        whenever(repository.getRoutine(mockUserInfo, "")).thenReturn(mockWorkoutPlan)
 
         viewModel.uploadUserInfo(mockUserInfo)
-        viewModel.getRoutine()
+        viewModel.getRoutine("")
 
         testDispatcher.scheduler.advanceUntilIdle()
 
@@ -75,10 +79,10 @@ class RoutineRepositoryImplTest {
 
     @Test
     fun `test getRoutine failure updates UiState to Error`() = runTest {
-        whenever(repository.getRoutine(mockUserInfo)).thenThrow(RuntimeException("API Error"))
+        whenever(repository.getRoutine(mockUserInfo, "")).thenThrow(RuntimeException("API Error"))
 
         viewModel.uploadUserInfo(mockUserInfo)
-        viewModel.getRoutine()
+        viewModel.getRoutine("")
 
         testDispatcher.scheduler.advanceUntilIdle()
 
